@@ -1,8 +1,8 @@
 #include <iostream>
 #include <chrono>
 #include <string>
-#include "BWT.h"
-#include "RLE.h"
+#include "CompressionAlgo/BWT.h"
+#include "CompressionAlgo/RLE.h"
 #include "matplotlibcpp.h"
 using namespace std;
 namespace plt = matplotlibcpp;

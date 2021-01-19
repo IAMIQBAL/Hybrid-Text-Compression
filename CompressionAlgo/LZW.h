@@ -2,7 +2,7 @@
 #include <string>
 #include <string.h>
 #include <vector>
-#include "Dictionary.h"
+#include "../Dictionary.h"
 using namespace std;
 
 #define LOG(X) cout << X << endl
