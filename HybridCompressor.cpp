@@ -30,8 +30,6 @@ int main(){
     // RLE + LZW = 1
 
     // BWT + RLE + LZW = 2
-
-    // BWT + RLE + LZW + DELTA = 3
     
     if (choice == 'C' || choice == 'c'){
         printAlgos();
@@ -68,8 +66,6 @@ int main(){
             LZW<string> lzwE(rleEncoded, rleEncoded.length());
             encoded = lzwE.encode();
 
-        } else if (algo == 3){
-            // BWT + RLE + LZW + DELTA = 3     
         } else {
             cout << "Something went wrong" << endl;
         }
@@ -106,7 +102,6 @@ int main(){
         
         to_string(bits, decoded);
         reverse(decoded.begin(), decoded.end());
-        // cout << "Decoded: " << decoded << endl;
 
         int spl = 1;
         vector<int> recovered;
@@ -115,7 +110,7 @@ int main(){
             holder += decoded[i];
             spl++;
             if (spl == m.length()+1){
-                cout << holder << endl;
+                // cout << holder << endl;
                 recovered.push_back(binaryToDecimal(holder));
                 holder = "";
                 spl = 1;
@@ -151,8 +146,6 @@ int main(){
             
             BWT bD(rleDecode, rleDecode.length());
             cout << bD.inverse() << endl;
-        } else if (algo == 3){
-
         } else {
             cout << "Something went wrong" << endl;
         }
@@ -160,7 +153,7 @@ int main(){
         string data = remove(readFile(fileName));
 
         HuffmanCoding H(data);
-        string encoded = H.run();
+        string encoded = H.run(0);
         BitOperations<string> bits(encoded, "bits.bin");
         bits.writeToFile();
     } else {
@@ -173,5 +166,4 @@ void printAlgos(){
     cout << "LZW = 0" << endl;
     cout << "RLE + LZW = 1" << endl;
     cout << "BWT + RLE + LZW = 2" << endl;
-    cout << "BWT + RLE + LZW + DELTA = 3" << endl;
 }

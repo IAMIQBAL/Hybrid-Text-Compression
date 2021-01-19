@@ -3,6 +3,7 @@
 #include <string>
 #include "CompressionAlgo/BWT.h"
 #include "CompressionAlgo/RLE.h"
+#include "CompressionAlgo/Huffman.h"
 #include "matplotlibcpp.h"
 using namespace std;
 namespace plt = matplotlibcpp;
@@ -115,24 +116,34 @@ public:
                 tmp = rle.Encode();
                 LZW<string> lzw(tmp, tmp.length());
                 c = lzw.encode();
+            } else if (alg == 3){
+                d.setName("Huffman");
+                HuffmanCoding H(t);
+                H.run(1);
+                d.setCompRatio(100 - ((H.getOutputLength() / getFileSize(t)) * 100));
             }
             auto end = chrono::high_resolution_clock::now();
-            
-            vector<int> lzwNums = splitNum(c);
-            cout << "LZW NUMS: " << lzwNums.size() << endl;
-            int max = getMax(lzwNums);
-            cout << "Max: " << max << endl;
-            stringstream ss = toBinary(max);
-            string bin = ss.str().c_str();
-            for (int i = 0; i < bin.size(); i++){
-                cout << bin[i];
+            // auto duration = 0;
+
+            if (alg != 3){
+                vector<int> lzwNums = splitNum(c);
+                cout << "LZW NUMS: " << lzwNums.size() << endl;
+                int max = getMax(lzwNums);
+                cout << "Max: " << max << endl;
+                stringstream ss = toBinary(max);
+                string bin = ss.str().c_str();
+                for (int i = 0; i < bin.size(); i++){
+                    cout << bin[i];
+                }
+                cout << endl;
+
+                auto duration = chrono::duration_cast<chrono::milliseconds>(end - start);
+                d.setCompRatio(100 - (((lzwNums.size() * bin.size()) / getFileSize(t)) * 100));
+                d.setTime(duration.count());
+            } else {
+                auto duration = chrono::duration_cast<chrono::milliseconds>(end - start);
+                d.setTime(duration.count());
             }
-            cout << endl;
-
-            auto duration = chrono::duration_cast<chrono::milliseconds>(end - start);
-            d.setCompRatio(100 - (((lzwNums.size() * bin.size()) / getFileSize(t)) * 100));
-            d.setTime(duration.count());
-
             x.push_back(d.getOrgFileSize()/ 8192);
             y.push_back(d.getCompRatio());
             z.push_back(d.getTime());
@@ -219,17 +230,18 @@ int main(){
 
     // Test for BWT + RLE + LZW = 2
 
-    // Test for BWT + RLE + LZW + DELTA = 3
+    // Test for Huffman = 3
 
     Test t(size);
     t.run(files, 0);
     vector<double> z1 = t.getZ();
     vector<double> y1 = t.getY();
 
-    map<string, string> m, n, o;
+    map<string, string> m, n, o, p;
     m.insert({"color", "red"});
     n.insert({"color", "green"});
     o.insert({"color", "blue"});
+    p.insert({"color", "orange"});
     plt::xlabel("Time");
     plt::ylabel("Compression %");
     plt::title("LZW");
@@ -262,14 +274,26 @@ int main(){
     plt::scatter(v.xmlTime, v.xml, 75, o);
     plt::show();
 
+
+    Test w(size);
+    w.run(files, 3);
+    vector<double> z4 = w.getZ();
+    vector<double> y4 = w.getY();
+    plt::xlabel("Time");
+    plt::ylabel("Compression %");
+    plt::title("Huffman");
+    plt::scatter(w.jsonTime, w.json, 75, m);
+    plt::scatter(w.txtTime, w.txt, 75, n);
+    plt::scatter(w.xmlTime, w.xml, 75, o);
+    plt::show();
+
     plt::xlabel("Time");
     plt::ylabel("Compression %");
     plt::title("Tests");
     plt::scatter(z1, y1, 75, m);
     plt::scatter(z2, y2, 75, n);
     plt::scatter(z3, y3, 75, o);
+    plt::scatter(z4, y4, 75, p);
 
     plt::show();
-
-
 }

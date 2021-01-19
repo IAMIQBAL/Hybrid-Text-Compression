@@ -82,6 +82,7 @@ private:
     int heapsize;
     Nodes *root;
     int codes[100];
+    int outLen;
 
 public:
     HuffmanCoding(string str) {
@@ -233,6 +234,11 @@ public:
         }
         return encoded;
     }
+
+    int getOutputLength(){
+        outLen = encoded.length();
+        return outLen;
+    }
     
     void storeCodes(Nodes* root,string ser) { 
         if (root==NULL) 
@@ -243,7 +249,7 @@ public:
         storeCodes(root->right,ser + "1"); 
     }
 
-    void decode_file() 
+    string decode_file() 
     { 
         string ans = ""; 
         Nodes* curr = root; 
@@ -259,15 +265,17 @@ public:
                 ans += curr->c; 
                 curr = root; 
             } 
-        } 
-        cout << endl << ans <<endl; 
+        }
+        return ans; 
     }
 
-    string run(){
+    string run(int mode){
         input();
         callPrint();
         string enc = codeStorage();
-        decode_file();
+        if (mode == 0){
+            cout << decode_file() << endl;
+        }
         
         return enc;
     }
