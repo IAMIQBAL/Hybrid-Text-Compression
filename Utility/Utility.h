@@ -92,6 +92,19 @@ string readFile(string name){
     return text;
 }
 
+int read(string fileName, int x = 0){
+    fstream inFile;
+    inFile.open(fileName);
+    inFile >> x;
+    return x;
+}
+
+void writeFile(int n, string fileName){
+    ofstream outFile;
+    outFile.open(fileName);
+    outFile << n;
+}
+
 void swap(string *a, string *b){
     string tmp;
     tmp = *a;

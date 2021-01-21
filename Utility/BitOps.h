@@ -49,7 +49,6 @@ public:
         }
         ofstream output(fName, ios::binary| ios::app);
         ostream_iterator<char> osit(output);
-        // cout << "Before: " << Bits << endl;
         to_block_range(Bits, osit);
         output.close();
         cout << "File Successfully modified" << endl;

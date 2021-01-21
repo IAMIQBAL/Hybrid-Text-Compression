@@ -79,9 +79,10 @@ int main(){
             sd = toBinary(lzwNums[i], m.length());
             ss += sd.str().c_str();
         }
-        BitOperations<string> b(ss, "bits.bin", m.length());
+        BitOperations<string> b(ss, "Compressed.bin", m.length());
         b.writeToFile();
-        cout << "Max: " << max << endl;
+
+        writeFile(max, "max.txt");
 
     } else if (choice == 'D' || choice == 'd'){
         printAlgos();
@@ -89,11 +90,10 @@ int main(){
         cin >> algo;
         cin.clear();
 
-        cout << "Enter Max: ";
-        cin >> max;
+        max = read("max.txt", 0);
+        cout << "Max: " << max << endl;
 
         string m = toBinary(max).str().c_str();
-        cout << "Max Binary: " << endl;
 
         string decoded;
         dynamic_bitset<unsigned char> bits;
@@ -154,7 +154,7 @@ int main(){
 
         HuffmanCoding H(data);
         string encoded = H.run(0);
-        BitOperations<string> bits(encoded, "bits.bin");
+        BitOperations<string> bits(encoded, "Compressed.bin");
         bits.writeToFile();
     } else {
         cout << "Something went wrong" << endl;
