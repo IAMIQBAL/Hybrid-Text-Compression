@@ -40,6 +40,17 @@ It is a form of lossless data compression in which runs of data are stored as a 
 3. Matplotlib C++ API
 4. Boost for reading/writing binary data (in actual/raw bits)
 
+## Compiling
+&emsp; ```git clone https://github.com/IAMIQBAL/Hybrid-Text-Compression```
+<br>
+&emsp; ```cd Hybrid-Text-Compression```
+<br>
+&emsp; ```pacman -S boost```
+<br>
+&emsp; ```g++ -o main HybridCompressor.cpp```
+<br>
+&emsp; ```./main```
+
 ## Tests
 
 We have written a test class (tests.cpp) which can be used to check the compression ratio and time taken on a scatter plot. The class uses Matplotlib’s C++ Library to plot the scatter plot. The Tests are as follows:
